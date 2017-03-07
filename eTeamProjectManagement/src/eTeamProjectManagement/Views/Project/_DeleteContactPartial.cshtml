@@ -1,0 +1,70 @@
+﻿@model eTeamProjectManagement.Entities.ProjectContactData
+
+<div class="modal-dialog" role="document">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delete Contact</h4>
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            <p>Please Confirm : You want to delete this contact?</p>
+            <div class="modal-body form-horizontal">
+                @Html.HiddenFor(m => m.ProjectContactId, new { @class = "form-control", @Value = "@Model.BeginDate" })
+                @Html.HiddenFor(m => m.ProjectId, new { @class = "form-control", @Value = "@Model.BeginDate" })
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactRole, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.ContactRole, new { @class = "form-control", @Value = "@Model.BeginDate" })
+                        @Html.ValidationMessageFor(m => m.ContactRole)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactName, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control", @Value = "@Model.BeginDate" })
+                        @Html.ValidationMessageFor(m => m.ContactName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactEmail, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.ContactEmail, new { @class = "form-control", @Value = "@Model.BeginDate" })
+                        @Html.ValidationMessageFor(m => m.ContactEmail)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactPhone, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.ContactPhone, new { @class = "form-control", @Value = "@Model.BeginDate" })
+                        @Html.ValidationMessageFor(m => m.ContactPhone)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactTimeZone, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.ContactTimeZone, new { @class = "form-control text-center", @Value = "@Model.BeginDate" })
+                        @Html.ValidationMessageFor(m => m.ContactTimeZone)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactNote, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9">
+                        @Html.TextAreaFor(m => m.ContactNote, 3, 1, new { @class = "form-control", @Value = "@Model.BeginDate" })
+                        @Html.ValidationMessageFor(m => m.ContactNote)
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <form asp-controller="Project" asp-action="DeleteContact" method="post" class="form-inline" role="form">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        }
+    </div>
+</div>

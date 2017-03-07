@@ -1,0 +1,74 @@
+﻿@model eTeamProjectManagement.Models.ProjectViewModels.GroupProjectViewModel
+@using eTeamProjectManagement.Models.ProjectViewModels
+@{
+    ViewData["Title"] = "Project Overview";
+    Layout = "_ProjLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Team Projects
+            <small>Overview</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a><i class="fa fa-dashboard"></i> Home</a></li>
+            <li>Project</li>
+            <li class="active">Overview</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        @foreach (var project in @Model.Projects)
+        {
+            var projectypes = Model.ProjectTypes;
+            var teams = Model.AllTeams;
+            var projectView = new IndividualProjectOverviewViewModel { Project = project, ProjectTypes = projectypes, AllTeams = teams };
+
+
+            @Html.Partial("_IndividualUserProject", projectView)
+        }
+    </section>
+</div>
+
+@section scripts{
+    <script>
+    var EditProjectPostBackURL = '/Project/ViewUpdatesOverview';
+    $(function () {
+        $(".viewupdates").click(function () {
+            debugger;
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: EditProjectPostBackURL,
+                contentType: "application/json; charset=utf-8",
+                data: { "Id": id },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+        //$("#closebtn").on('click',function(){
+        //    $('#myModal').modal('hide');
+
+        $("#closbtn").click(function () {
+            $('#myModal').modal('hide');
+        });
+    });
+
+    </script>
+    <script>
+        $('textarea').autoResize();
+    </script>
+}

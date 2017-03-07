@@ -1,0 +1,380 @@
+﻿@model eTeamProjectManagement.Models.ProjectViewModels.SingleProjectViewModel
+@using eTeamProjectManagement.Models.ProjectViewModels
+@{
+    ViewData["Title"] = "Project Overview";
+    Layout = "_ProjLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            @Model.ProjectData.ClientName
+            <small>Overview</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a><i class="fa fa-dashboard"></i> Home</a></li>
+            <li>Project</li>
+            <li class="active">Overview</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!--Project Data-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary class">
+                        <div class="panel-heading clearfix">
+                            <div align="left">
+                                <h4 class="panel-title pull-left" style="padding-top: 7px">
+                                    <a data-toggle="collapse" href="#collapse1"><b>Project Overview</b></a>
+                                </h4>
+                                <div class="btn-group pull-right">
+                                    <button class="btn btn-warning btn-sm editproj" data-id="@Model.ProjectData.Id" >Edit Project</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <form class="form-horizontal">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="projectStart" class="col-lg-2 control-label">Project Start Date</label>
+                                            <div class="col-lg-2">
+                                                <input type="text" class="form-control text-center" id="projectStart" placeholder="@Model.ProjectData.BeginDate" disabled>
+                                            </div>
+                                            <label for="projectStart" class="col-lg-2 control-label">Project Priority</label>
+                                            <div class="col-lg-2">
+                                                @Html.DropDownListFor(m => m.ProjectData.PriorityId, new SelectList(Model.AllPriorities, "Id", "ProjectPriority", "@Model.ProjectData.PriorityId"), new { @class = "form-control", disabled = "disabled" })
+                                            </div>
+                                            <label for="projectStatus" class="col-lg-2 control-label">Project Status</label>
+                                            <div class="col-lg-2">
+                                                @Html.DropDownListFor(m => m.ProjectData.StatusId, new SelectList(Model.AllStatus, "Id", "ProjectStatus", "@Model.ProjectData.StatusId"), new { @class = "form-control", disabled = "disabled" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-lg-2 control-label">Client Number</label>
+                                            <div class="col-lg-2">
+                                                <input type="text" class="form-control text-center" id="inputEmail3" placeholder="@Model.ProjectData.ClientNumber" disabled>
+                                            </div>
+                                            <label for="inputEmail2" class="col-lg-2 control-label">Bill To Client Number</label>
+                                            <div class="col-lg-2">
+                                                <input type="text" class="form-control text-center" id="inputEmail2" placeholder="@Model.ProjectData.BillToClientNumber" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Owner" class="col-sm-2 control-label">Owner</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" id="Owner" placeholder="@Model.ProjectData.ProjectOwner" disabled>
+                                            </div>
+                                            <label for="Team" class="col-sm-1 control-label">Team</label>
+                                            <div class="col-sm-3">
+                                                @Html.DropDownListFor(m => m.ProjectData.AssignedTeam, new SelectList(Model.AllTeams, "Id", "TeamName", "@Model.ProjectData.AssignedTeam"), new { @class = "form-control", disabled = "disabled" })
+                                            </div>
+                                            <label for="Team" class="col-sm-1 control-label">CST</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control text-center" id="Team" placeholder="@Model.ProjectData.Cst" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="projdescription1" class="col-lg-2 control-label">Project Description</label>
+                                            <div class="col-lg-10">
+                                                <textarea rows="2" class="form-control" id="projdescription1" placeholder="@Model.ProjectData.Description" disabled></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Project Contacts-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary class">
+                        <div class="panel-heading clearfix">
+                            <div align="left">
+                                <h4 class="panel-title pull-left" style="padding-top: 7px">
+                                    <a data-toggle="collapse" href="#collapse2"><b>Project Contacts</b></a>
+                                </h4>
+                                <div class="btn-group pull-right">
+                                    <button class="btn btn-warning btn-sm createcontact" data-id="@Model.ProjectData.Id">Add Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form class="form-horizontal">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <!-- Custom Tabs -->
+                                                <div class="nav-tabs-custom">
+                                                    <ul class="nav nav-tabs">
+                                                        <!--LABEL TAB LOOP HERE-->
+                                                        @{
+                                                            int i = 0;
+                                                            foreach (var contact in @Model.ProjectContacts.OrderBy(a => a.ProjectContactId))
+                                                            {                                                                
+                                                                var currentContact = new ProjectContactViewModel();
+                                                                currentContact.Contact = contact;
+                                                                currentContact.CurrentRun = i;
+                                                                @Html.Partial("_IndividualProjectContactHeader", currentContact);
+                                                                i++;
+                                                            }
+                                                         }
+                                                    </ul>    
+                                                    <div class="tab-content">
+                                                        @{
+                                                            int j = 0;
+                                                            foreach (var contact2 in @Model.ProjectContacts.OrderBy(a => a.ProjectContactId))
+                                                            {                                                                
+                                                                var currentContact2 = new ProjectContactViewModel();
+                                                                currentContact2.Contact = contact2;
+                                                                currentContact2.CurrentRun = j;
+                                                                @Html.Partial("_IndividualProjectContactDetails", currentContact2)
+                                                                j++;
+                                                            }
+                                                        }
+                                                        
+                                                    </div>
+                                                </div>
+                                                <!-- nav-tabs-custom -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Project Team Timeline-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary class">
+                        <div class="panel-heading clearfix">
+                            <div align="left">
+                                <h4 class="panel-title pull-left" style="padding-top: 7px">
+                                    <a data-toggle="collapse" href="#collapse3"><b>Team Update Timeline</b></a>
+                                </h4>
+                                <div class="btn-group pull-right">
+                                    <a href="#" class="btn btn-warning btn-sm">Add Update</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form class="form-horizontal">
+                                    <div class="box-body">
+                                        <ul class="timeline">
+                                            @foreach (var update in @Model.ProjectTeamUpdates.OrderByDescending(a => a.InitialUpdate))
+                                            {
+                                                var model_teamupdates = update;
+                                                var model_pdatepartys = Model.AllUpdateParties;
+                                                var model_updatetypes = Model.AllUpdateTypes;
+
+                                                var teamupdate = new IndividualTeamUpdateViewModel {teamProjectUpdates = update, updatePartys = model_pdatepartys, updateTypes = model_updatetypes };
+                                                @Html.Partial("_IndividualProjectTeamUpdate", teamupdate)
+                                            }
+                                        </ul>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Project IT Timeline-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary class">
+                        <div class="panel-heading clearfix">
+                            <div align="left">
+                                <h4 class="panel-title pull-left" style="padding-top: 7px">
+                                    <a data-toggle="collapse" href="#collapse4"><b>IT Update Timeline</b></a>
+                                </h4>
+                                <div class="btn-group pull-right">
+                                    <a href="#" class="btn btn-warning btn-sm">Add Update</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="collapse4" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form class="form-horizontal">
+                                    <div class="box-body">
+                                        <ul class="timeline">
+                                            @foreach (var update in @Model.ProjectITUpdates.OrderByDescending(a => a.InitialUpdate))
+                                            {
+                                                var model_teamupdates = update;
+                                                var model_pdatepartys = Model.AllUpdateParties;
+                                                var model_updatetypes = Model.AllUpdateTypes;
+
+                                                var teamupdate = new IndividualITUpdateViewModel { teamITUpdates = update, updatePartys = model_pdatepartys, updateTypes = model_updatetypes };
+                                                @Html.Partial("_IndividualProjectITUpdate", teamupdate)
+                                            }
+                                        </ul>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+
+</div>   
+
+@section scripts{
+
+<script>
+    var EditProjectPostBackURL = '/Project/EditProject';
+    $(function () {
+        $(".editproj").click(function () {
+            debugger;
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: EditProjectPostBackURL,
+                contentType: "application/json; charset=utf-8",
+                data: { "Id": id },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+
+        $("#closbtn").click(function () {
+            $('#myModal').modal('hide');
+        });
+    }); 
+</script> 
+<script>
+    var AddContactPostBackURL = '/Project/EditContact';
+    $(function () {
+        $(".editcontact").click(function () {
+            debugger;
+            
+            var $buttonClicked = $(this);
+            var projectId = $buttonClicked.attr('data-id');
+            var contactId = $buttonClicked.attr('contact-id');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: AddContactPostBackURL,
+                contentType: "application/json; charset=utf-8",
+                data: { "ProjectId": projectId, "ContactId": contactId },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+
+        $("#closbtn").click(function () {
+            $('#myModal').modal('hide');
+        });
+    });
+</script>
+<script>
+    var CreateContactPostBackURL = '/Project/CreateContact';
+    $(function () {
+        $(".createcontact").click(function () {
+            debugger;
+
+            var $buttonClicked = $(this);
+            var projectId = $buttonClicked.attr('data-id');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: CreateContactPostBackURL,
+                contentType: "application/json; charset=utf-8",
+                data: { "ProjectId": projectId },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+
+        $("#closbtn").click(function () {
+            $('#myModal').modal('hide');
+        });
+    });
+</script>
+<script>
+    var AddDeletePostBackURL = '/Project/DeleteContact';
+    $(function () {
+        $(".deletecontact").click(function () {
+            debugger;
+
+            var $buttonClicked = $(this);
+            var projectId = $buttonClicked.attr('data-id');
+            var contactId = $buttonClicked.attr('contact-id');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: AddDeletePostBackURL,
+                contentType: "application/json; charset=utf-8",
+                data: { "ProjectId": projectId, "ContactId": contactId },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+
+        $("#closbtn").click(function () {
+            $('#myModal').modal('hide');
+        });
+    });
+</script>
+}

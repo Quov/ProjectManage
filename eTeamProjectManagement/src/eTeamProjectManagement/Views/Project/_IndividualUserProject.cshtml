@@ -1,0 +1,140 @@
+﻿@model eTeamProjectManagement.Models.ProjectViewModels.IndividualProjectOverviewViewModel
+@inject UserManager<ApplicationUser> UserManager
+@{ 
+    var projectType = Model.ProjectTypes.FirstOrDefault(r => r.Id == Model.Project.ProjectTypeId);
+    var selectType = projectType.ProjectType;
+
+    var projectTeam = Model.AllTeams.FirstOrDefault(r => r.Id == Model.Project.AssignedTeam);
+    var selectTeam = projectTeam.TeamName;
+}
+
+@if (@UserManager.GetUserName(User) == Model.Project.ProjectOwner)
+{
+<div class="row">
+        <div class="col-md-12">
+            <div class="panel-group">
+                <div class="panel panel-primary class">
+                    <div class="panel-heading clearfix">
+                        <div align="left">
+                            <h4 class="panel-title pull-left" style="padding-top: 7px">
+                                <a data-toggle="collapse" href=@String.Concat("#collapse", @Model.Project.Id)><b>@Model.Project.ClientName</b> - @selectType</a>
+                            </h4>
+                            <div class="btn-group pull-right">
+                                <button class="btn btn-warning btn-sm viewupdates" data-id="@Model.Project.Id">View Updates</button>
+                                @Html.ActionLink("View Project", "ViewProject", new { id = @Model.Project.Id }, new { @class = "btn btn-primary btn-sm", @style = "color:white" })
+                            </div>
+                        </div>
+                    </div>
+                    <div id=@String.Concat("collapse", @Model.Project.Id) class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form class="form-horizontal">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-lg-2 control-label">Client Number</label>
+                                        <div class="col-lg-2">
+                                            <input type="text" class="form-control text-center" id="inputEmail3" placeholder="@Model.Project.ClientNumber" disabled>
+                                        </div>
+                                        <label for="inputEmail2" class="col-lg-2 control-label">Bill To Client Number</label>
+                                        <div class="col-lg-2">
+                                            <input type="text" class="form-control text-center" id="inputEmail2" placeholder="@Model.Project.BillToClientNumber" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Owner" class="col-sm-2 control-label">Owner</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="Owner" placeholder="@Model.Project.ProjectOwner" disabled>
+                                        </div>
+                                        <label for="Team" class="col-sm-1 control-label">Team</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="Team" placeholder="@selectTeam" disabled>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="projdescription1" class="col-lg-2 control-label">Project Description</label>
+                                        <div class="col-lg-10">
+                                            <textarea rows="2" class="form-control" id="projdescription1" placeholder="@Model.Project.Description" disabled></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer" align="right">
+                            Last Updated On : @Model.Project.BeginDate
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-group">
+                <div class="panel panel-info class">
+                    <div class="panel-heading clearfix">
+                        <div align="left">
+                            <h4 class="panel-title pull-left" style="padding-top: 7px">
+                                <a data-toggle="collapse" href=@String.Concat("#collapse", @Model.Project.Id)><b>@Model.Project.ClientName</b> - @selectType</a>
+                            </h4>
+                            <div class="btn-group pull-right">
+                                <button class="btn btn-warning btn-sm viewupdates" data-id="@Model.Project.Id">View Updates</button>
+                                @Html.ActionLink("View Project", "ViewProject", new { id = @Model.Project.Id }, new { @class = "btn btn-primary btn-sm", @style = "color:white" })
+                            </div>
+                        </div>
+                    </div>
+                    <div id=@String.Concat("collapse", @Model.Project.Id) class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form class="form-horizontal">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-lg-2 control-label">Client Number</label>
+                                        <div class="col-lg-2">
+                                            <input type="text" class="form-control text-center" id="inputEmail3" placeholder="@Model.Project.ClientNumber" disabled>
+                                        </div>
+                                        <label for="inputEmail2" class="col-lg-2 control-label">Bill To Client Number</label>
+                                        <div class="col-lg-2">
+                                            <input type="text" class="form-control text-center" id="inputEmail2" placeholder="@Model.Project.BillToClientNumber" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Owner" class="col-sm-2 control-label">Owner</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="Owner" placeholder="@Model.Project.ProjectOwner" disabled>
+                                        </div>
+                                        <label for="Team" class="col-sm-1 control-label">Team</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="Team" placeholder="@selectTeam" disabled>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="projdescription1" class="col-lg-2 control-label">Project Description</label>
+                                        <div class="col-lg-10">
+                                            <textarea rows="2" class="form-control" id="projdescription1" placeholder="@Model.Project.Description" disabled></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer" align="right">
+                            Last Updated On : @Model.Project.BeginDate
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+
+</div>   
+

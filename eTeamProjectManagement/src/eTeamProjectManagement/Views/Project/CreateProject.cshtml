@@ -1,0 +1,138 @@
+﻿@model eTeamProjectManagement.Models.ProjectViewModels.BaseProjectEditCreateViewModel
+
+@using Microsoft.AspNetCore.Identity
+@using eTeamProjectManagement.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Project Overview";
+    Layout = "_ProjLayout.cshtml";
+
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Create New Project
+            <small>Overview</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a><i class="fa fa-dashboard"></i> Home</a></li>
+            <li>Project</li>
+            <li class="active">Overview</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary class">
+                        <div class="panel-heading clearfix">
+                            <div align="left">
+                                <h4 class="panel-title pull-left">
+                                    <a data-toggle="collapse" href="#collapse1"><b>Project Overview</b></a>
+                                </h4>
+                            </div>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <form class="form-horizontal" method="post" action="/Project/CreateProject">
+                                    <div class="box-body">
+
+                                        @using (Html.BeginForm())
+                                        {
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.BeginDate, new { @class = "col-lg-2 control-label" })
+                                                <div class="col-lg-2">
+                                                    @Html.TextBoxFor(m => m.BeginDate, new { @class = "form-control text-center", @Value = "@Model.BeginDate" })
+                                                    @Html.ValidationMessageFor(m => m.BeginDate)
+                                                </div>
+
+                                                @Html.LabelFor(m => m.Priority, new { @class = "col-lg-2 control-label" })
+                                                <div class="col-lg-2">
+                                                    @Html.DropDownListFor(m => m.Priority, new SelectList(Model.AllPriorities, "Id", "ProjectPriority"), "", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.Priority)
+                                                </div>
+
+                                                @Html.LabelFor(m => m.Status, new { @class = "col-lg-2 control-label" })
+                                                <div class="col-lg-2">
+                                                    @Html.DropDownListFor(m => m.Status, new SelectList(Model.AllStatus, "Id", "ProjectStatus"), "", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.Status)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.ClientNumber, new { @class = "col-lg-2 control-label" })
+                                                <div class="col-lg-2">
+                                                    @Html.TextBoxFor(m => m.ClientNumber, new { @class = "form-control text-center" })
+                                                    @Html.ValidationMessageFor(m => m.ClientNumber)
+                                                </div>
+
+                                                @Html.LabelFor(m => m.BillToClientNumber, new { @class = "col-lg-2 control-label" })
+                                                <div class="col-lg-2">
+                                                    @Html.TextBoxFor(m => m.BillToClientNumber, new { @class = "form-control text-center" })
+                                                    @Html.ValidationMessageFor(m => m.BillToClientNumber)
+                                                </div>
+
+                                                @Html.LabelFor(m => m.Cst, new { @class = "col-lg-2 control-label" })
+                                                <div class="col-lg-2">
+                                                    @Html.TextBoxFor(m => m.Cst, new { @class = "form-control text-center" })
+                                                    @Html.ValidationMessageFor(m => m.Cst)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.ClientName, new { @class = "col-lg-2 control-label" })
+                                                <div class="col-lg-4">
+                                                    @Html.TextBoxFor(m => m.ClientName, new { @class = "form-control text-center" })
+                                                    @Html.ValidationMessageFor(m => m.ClientName)
+                                                </div>
+
+                                                @Html.LabelFor(m => m.ProjectType, new { @class = "col-lg-4 control-label" })
+                                                <div class="col-lg-2">
+                                                    @Html.DropDownListFor(m => m.ProjectType, new SelectList(Model.AllProjectTypes,"Id","ProjectType"),"", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.ProjectType)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.AssignedTeam, new { @class = "col-lg-2 control-label" })
+                                                <div class="col-lg-3">
+                                                    @Html.DropDownListFor(m => m.AssignedTeam, new SelectList(Model.AllTeams, "Id", "TeamName"), "", new { @class = "form-control" }) 
+                                                    @Html.ValidationMessageFor(m => m.AssignedTeam)
+                                                </div>
+
+                                                @Html.LabelFor(m => m.ProjectOwner, new { @class = "col-lg-5 control-label" })
+                                                <div class="col-lg-2">
+                                                    @Html.TextBoxFor(m => m.ProjectOwner, new { @class = "form-control text-center", Value = "@Model.ProjectOwner" })                                                  
+                                                    @Html.ValidationMessageFor(m => m.ProjectOwner)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.Description, new { @class = "col-lg-2 control-label" })
+                                                <div class="col-lg-10">
+                                                    @Html.TextAreaFor(m => m.Description, 2, 1, new { @class = "form-control", value = "TEST" })
+                                                    @Html.ValidationMessageFor(m => m.Description)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="btn-group pull-right">
+                                                    <input type="submit" class="btn btn-danger btn-sm" value="Save Project" />
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

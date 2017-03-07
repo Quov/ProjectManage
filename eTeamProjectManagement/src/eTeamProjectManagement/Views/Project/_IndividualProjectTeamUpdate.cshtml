@@ -1,0 +1,98 @@
+﻿@model eTeamProjectManagement.Models.ProjectViewModels.IndividualTeamUpdateViewModel
+@{ 
+    var updateParty = Model.updatePartys.FirstOrDefault(r => r.Id == Model.teamProjectUpdates.UpdateFromId);
+    var selectParty = updateParty.UpdateParty;
+
+    var updateType = Model.updateTypes.FirstOrDefault(r => r.Id == Model.teamProjectUpdates.UpdateTypeId);
+    var selectType = updateType.ProjectUpdateType;
+}
+
+
+@if (Model.teamProjectUpdates.UpdateFromId == 1)
+{
+    ViewData["Icon"] = "fa fa-envelope bg-blue";
+}
+else if (Model.teamProjectUpdates.UpdateFromId == 2)
+{
+    ViewData["Icon"] = "fa fa-user bg-red";
+}
+else if (Model.teamProjectUpdates.UpdateFromId == 3)
+{
+    ViewData["Icon"] = "fa fa-bolt bg-gray";
+}
+else if (Model.teamProjectUpdates.UpdateFromId == 4)
+{
+    ViewData["Icon"] = "fa fa-envelope bg-yellow";
+}
+else if (Model.teamProjectUpdates.UpdateFromId == 5)
+{
+    ViewData["Icon"] = "fa fa-envelope bg-pink";
+}
+
+@if (Model.teamProjectUpdates.UpdateTypeId == 1)
+{
+    <li class="time-label">
+        <span class="bg-aqua">
+            @Model.teamProjectUpdates.InitialUpdate.ToString("MMMM") @Model.teamProjectUpdates.InitialUpdate.Day, @Model.teamProjectUpdates.InitialUpdate.Year
+        </span>
+    </li>
+    <li>
+        <i class="fa fa-clock-o bg-green"></i>
+        <div class="timeline-item">
+            <span class="time"><i class="fa fa-clock-o"></i> @Model.teamProjectUpdates.InitialUpdate.TimeOfDay</span>
+
+            <h3 class="timeline-header"><b>Project Start</b></h3>
+        </div>
+    </li>
+}
+else if (Model.teamProjectUpdates.UpdateTypeId == 2)
+{
+    <li class="time-label">
+        <span class="bg-aqua">
+            @Model.teamProjectUpdates.InitialUpdate.ToString("MMMM") @Model.teamProjectUpdates.InitialUpdate.Day, @Model.teamProjectUpdates.InitialUpdate.Year
+        </span>
+    </li>
+    <li>
+        <i class="fa fa-clock-o bg-green"></i>
+        <div class="timeline-item">
+            <span class="time"><i class="fa fa-clock-o"></i> @Model.teamProjectUpdates.InitialUpdate.TimeOfDay</span>
+
+            <h3 class="timeline-header"><b>Project Complete</b></h3>
+        </div>
+    </li>
+}
+else
+{
+    <li class="time-label">
+        <span class="bg-aqua">
+            @Model.teamProjectUpdates.InitialUpdate.ToString("MMMM") @Model.teamProjectUpdates.InitialUpdate.Day, @Model.teamProjectUpdates.InitialUpdate.Year
+        </span>
+    </li>
+    <!-- /.timeline-label -->
+    <!-- timeline item -->
+    <li>
+        <i class="@ViewData["Icon"]"></i>
+
+        <div class="timeline-item">
+            <span class="time"><i class="fa fa-clock-o"></i> @Model.teamProjectUpdates.InitialUpdate.TimeOfDay</span>
+
+            <h3 class="timeline-header"><b>@selectParty</b> - @selectType</h3>
+
+            <div class="timeline-body">
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        @Model.teamProjectUpdates.Description
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-warning btn-sm editteamupdate" data-id="0" contact-id="0">Edit</button>
+                            <button type="button" class="btn btn-danger btn-sm deleteteamupdate" data-id="0" contact-id="0">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+}

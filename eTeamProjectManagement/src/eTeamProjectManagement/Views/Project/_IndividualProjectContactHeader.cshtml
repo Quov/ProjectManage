@@ -1,0 +1,10 @@
+﻿@model eTeamProjectManagement.Models.ProjectViewModels.ProjectContactViewModel
+
+@if (Model.CurrentRun == 0)
+{
+    <li class="active"><a href=@String.Concat("#tab", @Model.Contact.ProjectContactId) data-toggle="tab">@Model.Contact.ContactRole</a></li>
+}
+else
+{
+    <li><a href=@String.Concat("#tab", @Model.Contact.ProjectContactId) data-toggle="tab">@Model.Contact.ContactRole</a></li>
+}
